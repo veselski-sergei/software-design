@@ -11,9 +11,11 @@ from threading import Thread
 t_s = 3
 t_s2 = 30
 t_s3 = 30
+t_s4 = 30
 
 file_path = os.getcwd()
 
+temper_id = file_path + '/alert_state/t_on'
 water_id = file_path + '/alert_state/w_on'
 motion_id = file_path + '/alert_state/m_on'
 
@@ -64,3 +66,50 @@ class motion_check(threading.Thread):
                 time.sleep(t_s)
 
 motion_check().start()
+
+def critical_read():
+        inf = Popen('''cat /home/pi/Desktop/bot/alert_state/critical_temp''', shell=True, stdout = PIPE)
+        inf.wait()
+        out = inf.communicate()
+        t = out[0].replace("\n", "")
+        return t
+
+def temper_inf():
+        txt = file_path + "/dht11_temp.py"
+        exe =  Popen("%s" % txt, shell=True, stdout = PIPE)
+        exe.wait()
+        inf = exe.communicate()
+        inf = inf[0].replace("\n","")
+        if(inf == ''):
+                print('нету результата текущей температуры')
+                none = 100
+                return none
+        elif(inf == 'None'):
+		none = 1000
+                print('нету результата текущей температуры')
+                return none
+        else:
+                t = round(float(inf))
+                t = int(t)
+                return t
+
+class temper_check(threading.Thread):
+	def run(self):
+		while True:
+			if(os.path.exists(temper_id)):
+				t_now = temper_inf()
+				t_critical = critical_read()
+				if(t_now == 100):
+					time.sleep(t_s)
+				elif(t_now < t_critical):
+					info = "Текущая температура: %s C" %t_now
+					print(info)
+					text = "Температура ниже критической! Текущая температура: %s C" %t_now
+					subprocess.call(['''/home/pi/Desktop/bot/telegram_sender.py "%s"''' %text], shell=True)
+					time.sleep(t_s4)
+				else:
+					time.sleep(t_s)
+			else:
+				time.sleep(t_s)
+
+temper_check().start()
