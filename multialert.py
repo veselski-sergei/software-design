@@ -8,17 +8,19 @@ from subprocess import Popen, PIPE
 import threading
 from threading import Thread
 
-t_s = 3
-t_s2 = 30
-t_s3 = 30
-t_s4 = 30
+t_s = 3     #штатный интервал ожидания
+t_s2 = 30   #аварийный интервал ожидания воды
+t_s3 = 30   #повторный интервал ожидания движения
+t_s4 = 30   #интервал ожидания после того как температура упала ниже критической
 
-file_path = os.getcwd()
+file_path = os.getcwd() #айдишники сигнализаций
+                        #cигнализация будет включена или выключена в зависимости от наличия айдишника
 
 water_id = file_path + '/alert_state/w_on'
 motion_id = file_path + '/alert_state/m_on'
 temper_id = file_path + '/alert_state/t_on'
 
+#проверка воды
 class water_check(threading.Thread):
 	def run(self):
 		while True:
@@ -44,6 +46,7 @@ class water_check(threading.Thread):
 
 water_check().start()
 
+#проверка движения
 class motion_check(threading.Thread):
     def run(self):
         while True:
@@ -67,6 +70,7 @@ class motion_check(threading.Thread):
 
 motion_check().start()
 
+#считывание минимального градуса(целое значение)
 def critical_read():
         inf = Popen('''cat /home/pi/Desktop/bot/alert_state/critical_temp''', shell=True, stdout = PIPE)
         inf.wait()
@@ -75,6 +79,7 @@ def critical_read():
         t = int(t)
         return t
 
+#получение актуальной температуры
 def temper_inf():
         txt = file_path + "/dht11_temp.py"
         exe =  Popen("%s" % txt, shell=True, stdout = PIPE)
@@ -94,6 +99,7 @@ def temper_inf():
             t = int(t)
             return t
 
+#проверка температуры
 class temper_check(threading.Thread):
 	def run(self):
 		while True:
