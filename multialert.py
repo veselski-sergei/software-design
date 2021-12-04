@@ -15,9 +15,9 @@ t_s4 = 30
 
 file_path = os.getcwd()
 
-temper_id = file_path + '/alert_state/t_on'
 water_id = file_path + '/alert_state/w_on'
 motion_id = file_path + '/alert_state/m_on'
+temper_id = file_path + '/alert_state/t_on'
 
 class water_check(threading.Thread):
 	def run(self):
@@ -72,6 +72,7 @@ def critical_read():
         inf.wait()
         out = inf.communicate()
         t = out[0].replace("\n", "")
+        t = int(t)
         return t
 
 def temper_inf():
@@ -82,7 +83,7 @@ def temper_inf():
         inf = inf[0].replace("\n","")
         if(inf == ''):
                 print('нету результата текущей температуры')
-                none = 100
+                none = 1000
                 return none
         elif(inf == 'None'):
 		none = 1000
@@ -99,7 +100,7 @@ class temper_check(threading.Thread):
 			if(os.path.exists(temper_id)):
 				t_now = temper_inf()
 				t_critical = critical_read()
-				if(t_now == 100):
+				if(t_now == 1000):
 					time.sleep(t_s)
 				elif(t_now < t_critical):
 					info = "Текущая температура: %s C" %t_now
