@@ -30,7 +30,7 @@ class water_check(threading.Thread):
 				w = w.replace('\n','')
 				if(w == u'на датчике обнаружена вода!'):
 					print w
-					text = "На датчике вода!"
+					text = "Хозяин! Мы тонем! На датчике вода! Проверь скоре"
 	                                subprocess.call(['''/home/pi/Desktop/bot/telegram_sender.py "%s"''' %text], shell=True)
 					time.sleep(t_s2)
 				elif(w == u'датчик сухой'):
@@ -54,13 +54,13 @@ class motion_check(threading.Thread):
                 m = m.decode(encoding='utf-8')
                 m = m.replace('\n','')
                 if(m == u'обнаружено движение'):
-                        print m
-                        text = "Кто-то ходит!"
-                        subprocess.call(['''/home/pi/Desktop/bot/telegram_sender.py "%s"''' %text], shell=True)
-                        time.sleep(t_s3)
+                    print m
+                    text = "Хозяин! Кто-то  тут ходит! Это ты? Мне страшно.."
+                    subprocess.call(['''/home/pi/Desktop/bot/telegram_sender.py "%s"''' %text], shell=True)
+                    time.sleep(t_s3)
                 else:
-                        print("ERR")
-                        time.sleep(t_s)
+                    print("ERR")
+                    time.sleep(t_s)
             else:
                 print('сигналка движения выключена')
                 time.sleep(t_s)
@@ -90,9 +90,9 @@ def temper_inf():
                 print('нету результата текущей температуры')
                 return none
         else:
-                t = round(float(inf))
-                t = int(t)
-                return t
+            t = round(float(inf))
+            t = int(t)
+            return t
 
 class temper_check(threading.Thread):
 	def run(self):
@@ -105,7 +105,7 @@ class temper_check(threading.Thread):
 				elif(t_now < t_critical):
 					info = "Текущая температура: %s C" %t_now
 					print(info)
-					text = "Температура ниже критической! Текущая температура: %s C" %t_now
+					text = "Хозяин! Температура ниже критической! Я замерзаю...  Текущая температура: %s C" %t_now
 					subprocess.call(['''/home/pi/Desktop/bot/telegram_sender.py "%s"''' %text], shell=True)
 					time.sleep(t_s4)
 				else:
