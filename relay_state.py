@@ -21,7 +21,7 @@ proc.wait()
 res = proc.communicate()
 count = res[0].replace("\n","")
 count = int(count)
-if count == 0:
+if count == 1:
         print('0').replace("\n","")
 else:
         print('1').replace("\n","")
