@@ -13,4 +13,4 @@ def RCtime (RCpin):
         signal = GPIO.input(RCpin)
         print "обнаружено движение"
 
-RCtime(16)
+RCtime(19)
