@@ -8,9 +8,9 @@
 * Также на Raspberry Pi должна быть установлена реле для возможности включения/выключения электроприборов с помощью интерфейса tg-бота.
 
 ### :framed_picture: Диаграммы
-- Уровень-1
+#### Уровень-1
 ![Image alt](https://github.com/veselski-sergei/software-design/raw/main/diagrams/lev1.jpg)
-- Уровень-2
+#### Уровень-2
 ![Image alt](https://github.com/veselski-sergei/software-design/raw/main/diagrams/lev2.jpg)
 
 ### группа 3530904/90103:
