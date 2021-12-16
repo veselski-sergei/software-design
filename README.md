@@ -11,7 +11,7 @@
 - Уровень-1
 ![Image alt](https://github.com/veselski-sergei/software-design/raw/main/diagrams/lev1.jpg)
 - Уровень-2
-
+![Image alt](https://github.com/veselski-sergei/software-design/raw/main/diagrams/lev2.jpg)
 
 ### группа 3530904/90103:
 1. _Весельский Сергей_
